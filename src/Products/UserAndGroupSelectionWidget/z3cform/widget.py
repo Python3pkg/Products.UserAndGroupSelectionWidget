@@ -11,8 +11,8 @@ from z3c.form import interfaces
 from Acquisition import aq_base
 
 from Products.UserAndGroupSelectionWidget.interfaces import IGenericGroupTranslation
-from interfaces import IUserAndGroupSelectionWidget
-from interfaces import IUsersAndGroupsSelectionWidget
+from .interfaces import IUserAndGroupSelectionWidget
+from .interfaces import IUsersAndGroupsSelectionWidget
 
 class Mixin(object):
     """ """
@@ -40,7 +40,7 @@ class Mixin(object):
             translator = IGenericGroupTranslation(instance)
         except zope.component.ComponentLookupError:
             pass
-        except TypeError, e:
+        except TypeError as e:
             if e[0] == 'Could not adapt':
                 pass
             else:
@@ -77,7 +77,7 @@ class UsersAndGroupsSelectionWidget(Mixin, z3c.form.browser.multi.MultiWidget):
                     z3c.form.interfaces.IButtonForm, 
                     z3c.form.interfaces.IHandlerForm)
 
-    klass = u'users-and-groups-selection-widget'
+    klass = 'users-and-groups-selection-widget'
     helper_js = ('userandgroupselect.js',)
     size = 8        # size of form-element taking the users
     groupName = ''  # takes the given group as default, a group id

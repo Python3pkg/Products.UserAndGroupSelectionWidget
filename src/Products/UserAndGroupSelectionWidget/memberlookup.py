@@ -8,8 +8,8 @@ from Products.PlonePAS.interfaces.group import IGroupIntrospection
 from bda.cache import ICacheManager
 from bda.cache import Memcached
  
-from interfaces import IGenericGroupTranslation
-from interfaces import IGenericFilterTranslation
+from .interfaces import IGenericGroupTranslation
+from .interfaces import IGenericFilterTranslation
 
 # make this dynamic, XXX
 CACHEPROVIDER = Memcached(['127.0.0.1:11211'])
@@ -30,7 +30,7 @@ class MemberLookup(object):
             self.currentgroupid = grouptranslation.translateToRealGroupId(group)
         except ComponentLookupError:
             self.currentgroupid = group
-        except TypeError, e:
+        except TypeError as e:
             if e[0] == 'Could not adapt':
                 self.currentgroupid = group
             else:
@@ -67,7 +67,7 @@ class MemberLookup(object):
         if group != 'ignore' and group != '':
             key = 'userandgroupselectionwidget:%s' % group
             manager = ICacheManager(CACHEPROVIDER)
-            if isinstance(key, unicode):
+            if isinstance(key, str):
                 # The CacheManager can't handle unicode
                 key = key.encode('utf-8')
             users = manager.getData(self._readGroupMembers, key, args=[group])
@@ -111,7 +111,7 @@ class MemberLookup(object):
         if self.widget.searchableProperties:
             membership = getToolByName(self.context, 'portal_membership')
             memberdata = getToolByName(self.context, 'portal_memberdata')
-            for user_id in memberdata._members.keys():
+            for user_id in list(memberdata._members.keys()):
                 user = membership.getMemberById(user_id)
                 if user is not None:
                     for member_property in self.widget.searchableProperties:
@@ -154,12 +154,12 @@ class MemberLookup(object):
             filter = filtertranslation.translateToFilterDefinition(filter)
         except ComponentLookupError:
             pass
-        except TypeError, e:
+        except TypeError as e:
             if e[0] == 'Could not adapt':
                 pass
             else:
                 raise        
-        if type(filter) in types.StringTypes:
+        if type(filter) in str:
             filter = [filter,]
         return filter
 

@@ -104,7 +104,7 @@ class AlphaBatch(object):
     def getPages(self):
         """Return a list of dicts containing page definitions.
         """
-        return self.pagemap.values()
+        return list(self.pagemap.values())
     
     security.declarePublic('getResults')
     def getResults(self):

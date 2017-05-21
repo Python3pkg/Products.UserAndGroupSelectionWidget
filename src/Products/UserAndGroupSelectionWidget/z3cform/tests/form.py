@@ -8,12 +8,12 @@ from Products.UserAndGroupSelectionWidget.z3cform import widget
 class ITestForm(zope.interface.Interface):
 
     field1 = zope.schema.TextLine(
-        title=u"Field1",
+        title="Field1",
         required=True,
         )
 
     field2 = zope.schema.List(
-        title=u"Field2",
+        title="Field2",
         required=True,
         )
 
@@ -26,15 +26,15 @@ class TestForm(z3c.form.form.Form):
 
     ignoreContext = True
 
-    @z3c.form.button.buttonAndHandler(u'Cancel')
+    @z3c.form.button.buttonAndHandler('Cancel')
     def handleCancel(self, action):
-        print 'Canceling'
+        print('Canceling')
 
-    @z3c.form.button.buttonAndHandler(u'Save')
+    @z3c.form.button.buttonAndHandler('Save')
     def handleSave(self, action):
         data, errors = self.extractData()
         if errors:
             return False
 
-        print 'Field1: ' + data['field1']
-        print 'Field2: ' + data['field2']
+        print('Field1: ' + data['field1'])
+        print('Field2: ' + data['field2'])

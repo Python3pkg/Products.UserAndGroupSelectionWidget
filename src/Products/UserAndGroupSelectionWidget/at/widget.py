@@ -35,7 +35,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
         # The widget always returns a empty item (strange) when we use the 
         # multival option.
         # Remove the empty items manually
-        if type(value) is types.ListType:
+        if type(value) is list:
             value = [item for item in value if item]
         return value, kwargs
 
@@ -46,7 +46,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
             translator = IGenericGroupTranslation(instance)
         except ComponentLookupError:
             pass
-        except TypeError, e:
+        except TypeError as e:
             if e[0] == 'Could not adapt':
                 pass
             else:

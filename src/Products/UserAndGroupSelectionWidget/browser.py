@@ -1,7 +1,7 @@
 import types
 import operator
 
-from alphabatch import AlphaBatch
+from .alphabatch import AlphaBatch
 
 from Acquisition import aq_inner
 from ZTUtils import make_query
@@ -11,7 +11,7 @@ from zope.component import queryUtility
 from zope.schema.interfaces import ICollection
 
 from z3c.form.widget import FieldWidget
-from z3cform.widget import UserAndGroupSelectionWidget
+from .z3cform.widget import UserAndGroupSelectionWidget
 
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity import utils
@@ -21,8 +21,8 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.PlonePAS.interfaces.group import IGroupIntrospection
 
-from interfaces import IUserAndGroupSelectView
-from memberlookup import MemberLookup
+from .interfaces import IUserAndGroupSelectView
+from .memberlookup import MemberLookup
 
 
 class UserAndGroupSelectView(BrowserView):
@@ -121,7 +121,7 @@ class UserAndGroupSelectPopupView(BrowserView):
     def isSelected(self, param, value):
         param = self.request.get(param)
         if param:
-            if param is types.StringType:
+            if param is bytes:
                 param = [param]
             if value in param:
                 return True
@@ -149,7 +149,7 @@ class UserAndGroupSelectPopupView(BrowserView):
 
     def _getQueryString(self, **kwargs):
         params = dict()
-        for key in self.request.form.keys():
+        for key in list(self.request.form.keys()):
             params[key] = self.request.form[key]
         params.update(kwargs)
         query = make_query(params)
